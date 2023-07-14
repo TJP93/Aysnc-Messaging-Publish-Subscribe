@@ -1,5 +1,5 @@
 var mqtt = require('async-mqtt');
-
+// var client = mqtt.connect('mqtt://localhost');
 const dataTopic = 'home/thermostats';
 
 const connectOptions = {
@@ -25,16 +25,16 @@ client.on("connect", () => {
 
 // publish a fake thermostat reading every 10 seconds
 function publishTelemetry() {
-    let temperature = generateTemperature(90, 115);
+    // let temperature = generateTemperature(90, 115);
     setInterval(() => { 
         const reading = {
             "location": location,
             "time": Date.now(),
-            "temperature": temperature
+            "temperature": generateTemperature(95, 101)
         };
         const message = JSON.stringify(reading);
         const options = {
-            // TODO experiment
+           "retain" : true,
         };
         client.publish(dataTopic, message, options).then((e) => {
             if (e) {

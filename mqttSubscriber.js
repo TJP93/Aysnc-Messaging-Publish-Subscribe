@@ -2,7 +2,16 @@
 // Simple subscriber using mqtt
 // use this to investigate quality of service options
 let mqtt = require('async-mqtt');
-let client = mqtt.connect('mqtt://localhost');
+
+const willTopic = 'home/status/thermostats'
+const connectOptions = {
+    'will': {
+        'topic': willTopic,
+        'payload': "Thermostat is dead",
+        'retain': true,
+    }
+}
+let client = mqtt.connect('mqtt://localhost', connectOptions);
 
 const TOPIC = 'home/thermostats';
 
